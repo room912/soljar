@@ -1,0 +1,41 @@
+<.header>
+  Listing Jars
+  <:actions>
+    <.link patch={~p"/jars/new"}>
+      <.button>New Jar</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="jars"
+  rows={@streams.jars}
+  row_click={fn {_id, jar} -> JS.navigate(~p"/jars/#{jar}") end}
+>
+  <:col :let={{_id, jar}} label="Name"><%= jar.name %></:col>
+  <:action :let={{_id, jar}}>
+    <div class="sr-only">
+      <.link navigate={~p"/jars/#{jar}"}>Show</.link>
+    </div>
+    <.link patch={~p"/jars/#{jar}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, jar}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: jar.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="jar-modal" show on_cancel={JS.patch(~p"/jars")}>
+  <.live_component
+    module={SoljarWeb.JarLive.FormComponent}
+    id={@jar.id || :new}
+    title={@page_title}
+    action={@live_action}
+    jar={@jar}
+    patch={~p"/jars"}
+  />
+</.modal>

@@ -1,0 +1,45 @@
+<.flash_group flash={@flash} />
+
+<div class="text-gray-100 h-full flex flex-col">
+  <header class="flex justify-between py-8 px-4 min-h-[112px]">
+    <.link class="flex space-x-4 items-center" navigate="/login">
+      <img src="/images/jar.png" class="w-8" />
+      <h2 class="font-semibold text-xl">SolJars.<span class="text-amber-500">com</span></h2>
+    </.link>
+    <menu>
+      <button phx-click={JS.show(to: "#mobile-menu")} class="block md:hidden">
+        <.icon name="hero-bars-2" class="w-8 h-8" />
+      </button>
+      <ul class="hidden md:flex space-x-12 items-center font-semibold min-h-[48px]">
+        <li><.link class="hover:text-amber-500" navigate="/login">Product</.link></li>
+        <li><.link class="hover:text-amber-500" navigate="/help">Help</.link></li>
+        <li><.link class="hover:text-amber-500" navigate="/pitch_deck">Pitch Deck</.link></li>
+        <li><.link class="hover:text-amber-500" navigate="/contact">Contact</.link></li>
+        <li>
+          <div class="min-w-[147px] flex justify-center items-center" id="wallet-header" phx-hook="Wallet" phx-update="ignore"></div>
+        </li>
+      </ul>
+
+      <div id="mobile-menu" class="hidden fixed py-28 px-12 inset-0 h-full w-full bg-gray-950 z-10">
+        <button class="fixed top-0 right-0 py-8 px-4" phx-click={JS.hide(to: "#mobile-menu")}>
+          <.icon name="hero-x-mark" class="w-8 h-8" />
+        </button>
+        <ul class="space-y-4 font-bold text-2xl animate-slidein100 opacity-0">
+          <li><.link class="hover:text-amber-500" navigate="/login">Product</.link></li>
+          <li><.link class="hover:text-amber-500" navigate="/help">Help</.link></li>
+          <li><.link class="hover:text-amber-500" navigate="/pitch_deck">Pitch Deck</.link></li>
+          <li><.link class="hover:text-amber-500" navigate="/contact">Contact</.link></li>
+          <li class="w-40">
+            <div id="wallet-header-mobile" phx-hook="Wallet" phx-update="ignore"></div>
+          </li>
+        </ul>
+      </div>
+    </menu>
+  </header>
+  <main class="h-full flex flex-col">
+    <%= @inner_content %>
+
+    <.live_component module={SoljarWeb.LoginComponent} id="login-component" />
+  </main>
+</div>
+
